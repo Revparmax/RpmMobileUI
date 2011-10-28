@@ -1,0 +1,102 @@
+<!DOCTYPE html> 
+
+<html> 
+	<head> 
+
+		<!-- META TAGS -->
+		<meta name="description" content="Are you a hotel owner? Monitor your hotels performance across industry
+		metrics (RevPar, Occupancy, Average Daily Rate - ADR ) from one place on the web" />
+		<meta name="keywords" content="hotel metrics, monitor hotel, hotel revpar, hotel adr, hotel average daily
+		rate, hotel occupancy, hotal saas software">
+
+		<title>RevParMax | Revenue Management Tool for Hotels | Date</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+		<!-- SHARED LIBRARIES -->
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.css" />
+		<link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jquery.mobile.datebox.min.css" /> 
+
+		<!-- JQUERY LIBRARY -->
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+
+		<!-- LOCAL JS -->
+		<script src="global/js/app.js" type="text/javascript"></script>
+
+		<!-- JQUERY MOBILE -->
+		<script type="text/javascript" src="http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.js"></script>
+		<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jquery.mobile.datebox.min.js"></script>
+
+		<!-- OTHER LIBRARIES -->
+		<link rel="stylesheet/less" type="text/css" href="global/css/global.less">
+		<script src="global/js/less-1.1.3.min.js" type="text/javascript"></script>
+		<script src="global/js/jquery.cookie.js" type="text/javascript"></script>
+		<script src="global/js/jshashtable-2.1.js" type="text/javascript"></script>
+		<script src="global/js/jquery.numberformatter-1.2.2.jsmin.js" type="text/javascript"></script>
+
+		<!-- GOOGLE ANALYTICS -->
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-25953757-1']);
+		  _gaq.push(['_setDomainName', 'revparmax.com']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+
+	</head>
+	<body> 
+
+		<div data-role="page" id="date">
+
+			<div class="hotel-name" name="header" data-role="header" data-backbtn="false" data-theme="r">
+				<h1><span class="company-name"></span></h1>
+			</div>
+
+			<div data-role="content">
+				<form method="post" data-ajax="false">
+					<div id="calendar">
+						<label for="mydate">Select a date:</label>
+						<input name="date" id="mydate" type="date" data-role="datebox" value=""
+						   data-options='{ "mode": "calbox", "pickPageButtonTheme": "c", "useInline": "true"}'>
+					</div>
+					
+					<input id="datePick" type="submit" value="Submit">
+					
+				</form>
+			</div>
+
+
+			<div data-role="footer" data-position="fixed" data-theme="r">
+				<div data-role="navbar" class="nav-icons">
+					<ul>
+						<li>
+							<a href="companies.html" data-transition="slideup" class="selectCompanyButton" data-ajax="false"  
+							data-icon="custom" id="hotels" >Hotels</a></li>
+						<li><a href="settings.html" data-transition="slideup" class="settingsButton" data-ajax="false"
+							data-icon="custom" id="settings" >Settings</a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<script>
+
+				$( '#date' ).live( 'pageinit',function(e){
+
+					app.date();
+
+				});
+
+			</script>
+
+		</div>
+
+	</body>
+	
+</html>
