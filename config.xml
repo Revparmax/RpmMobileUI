@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns		= "http://www.w3.org/ns/widgets"
+	xmlns:gap	= "http://phonegap.com/ns/1.0"
+	id		= "com.revparmax.webapp"
+	version 	= "0.1.0">
+
+	<name>Revparmax: Monitor your Hotels Perfomance On-The-Go</name>
+
+	<description>
+		Keep track of daily revenue and room perfomance statistics anywhere, anytime.
+		Adjust on the fly to maximum revenue.
+	</description>
+
+	<author href="http://revparmax.com"
+		email="imran@revparmax.com">
+		Imran Ismail
+	</author>
+
+	<icon src="icons/icon.png" width="57" height="57" gap:role="default" />
+	<icon src="icons/icon72.png" width="72" height="72"/>
+	<icon src="icons/icon2x.png" width="114" height="114"/>  
+	<gap:splash src="icons/default.png" width="320" height="480"/> 
+
+	<feature name="http://api.phonegap.com/1.0/network"/>
+</widget>
