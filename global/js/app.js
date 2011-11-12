@@ -8,8 +8,9 @@
 
 $(function() {
 	$.baseurl = '';
+	// http://localhost/~imrane/revparmax/mobile/app
 	if ( window.location.href.search(/^http/) == -1 )
-		$.baseurl = 'http://m.revparmax.com';
+		$.baseurl = 'http://m.dev.revparmax.com';
 
 	$.url = {
 		auth: 					$.baseurl + '/auth-user',
@@ -21,8 +22,6 @@ $(function() {
 		competition: 			$.baseurl + '/dash/competition/',
 		logout:  				$.baseurl + '/logout'
 	};
-	alert($.url.auth);
-	
 	
 });
 
@@ -362,7 +361,7 @@ var appLoad = {
 					
 						htmlstr += '<li data-icon="right-arrow">'; 
 						htmlstr += '<a href="date.html" data-ajax="false" data-companyid="' + item.company_id + '">';
-						htmlstr += '<img src="../app/global/images/hotel-icon.png" class="ui-li-icon">';
+						htmlstr += '<img src="global/images/hotel-icon.png" class="ui-li-icon">';
 						htmlstr += item.company_name + '</a></li>';
 						
 					});
@@ -793,7 +792,7 @@ var app = {
 	},
 	
 	date: function(){
-		
+
 		appLoad.date();
 		appEvents.selectDate();
 		
