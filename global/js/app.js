@@ -12,18 +12,23 @@ $(function() {
 	if ( window.location.href.search(/^http/) == -1 )
 		$.baseurl = 'http://m.dev.revparmax.com';
 
-	$.url = {
-		auth: 					$.baseurl + '/auth-user',
-		companies: 				$.baseurl + '/dash/companies',
-		date: 					$.baseurl + '/dash/date',
-		revenue: 				$.baseurl + '/dash/revenue/',
-		rooms: 					$.baseurl + '/dash/stats/', 
-		payments: 				$.baseurl + '/dash/payment/',
-		competition: 			$.baseurl + '/dash/competition/',
-		logout:  				$.baseurl + '/logout'
+	$.urls = {
+		setupUrls: function(){
+			$.url = {
+				auth: 					$.baseurl + '/auth-user',
+				companies: 				$.baseurl + '/dash/companies',
+				date: 					$.baseurl + '/dash/date',
+				revenue: 				$.baseurl + '/dash/revenue/',
+				rooms: 					$.baseurl + '/dash/stats/', 
+				payments: 				$.baseurl + '/dash/payment/',
+				competition: 			$.baseurl + '/dash/competition/',
+				logout:  				$.baseurl + '/logout'
+			};
+		}
 	};
-	
+	$.urls.setupUrls();
 });
+
 
 
 /*
@@ -75,6 +80,18 @@ var appEvents = {
 		$('#logo-div').css(cssObj);
 		
 	},
+
+	demo: function(){
+		// Demo button click
+		$("#demo-button").live("click", function(e){
+			$.baseurl = 'http://m.demo.revparmax.com';
+			$.urls.setupUrls();
+			$("#login-form [name=authemail]").val('jsmith@abchotel.com');
+			$("#login-form [name=authpassword]").val('abcd1234');
+			$("#loginButton").click();
+		});
+	},
+
 	
 	authUser: function(){
 		
@@ -781,6 +798,7 @@ var app = {
 		appEvents.bgResize();
 		appEvents.inputOnFocus();
 		appEvents.authUser();
+		appEvents.demo();
 		
 	},
 	

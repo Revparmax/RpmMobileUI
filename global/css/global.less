@@ -242,3 +242,41 @@
 	}
 }
 
+
+#demo-button-holder {
+	width: 100%;
+	text-align:center;
+}
+
+#demo-button {
+	margin-top:		10px;
+	cursor:	pointer;
+	-moz-box-shadow:inset 0px 15px 6px -8px #ffffff;
+	-webkit-box-shadow:inset 0px 15px 6px -8px #ffffff;
+	box-shadow:inset 0px 15px 6px -8px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	filter:~"progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf')";
+	background-color:#ededed;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#10290c;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+}
+#demo-button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed')";
+	background-color:#dfdfdf;
+}
+#demo-button:active {
+	position:relative;
+	top:1px;
+}
