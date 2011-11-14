@@ -7,26 +7,50 @@
 */
 
 $(function() {
-	$.baseurl = '';
-	// http://localhost/~imrane/revparmax/mobile/app
-	if ( window.location.href.search(/^http/) == -1 )
-		$.baseurl = 'http://m.dev.revparmax.com';
+	$.isMobile= function(){
+		return window.location.href.search(/^http/) == -1;
+	},
+
+	$.saveValue= function(key, value){
+		if ( $.isMobile )
+			window.localStorage.setItem(key, value);
+		else
+			$.cookie(key, value);
+	},
+
+	$.readValue= function(key){
+		if ( $.isMobile )
+			return window.localStorage.getItem(key);
+		else
+			return $.cookie(key);
+	},
+
 
 	$.urls = {
+		baseurl:	'http://m.dev.revparmax.com',
+
 		setupUrls: function(){
+			if ( $.isMobile() ){
+  				var workurl = $.readValue("workurl");
+				$.workurl = workurl ? workurl : $.urls.baseurl;
+			} else 
+				$.workurl = "";
+
 			$.url = {
-				auth: 					$.baseurl + '/auth-user',
-				companies: 				$.baseurl + '/dash/companies',
-				date: 					$.baseurl + '/dash/date',
-				revenue: 				$.baseurl + '/dash/revenue/',
-				rooms: 					$.baseurl + '/dash/stats/', 
-				payments: 				$.baseurl + '/dash/payment/',
-				competition: 			$.baseurl + '/dash/competition/',
-				logout:  				$.baseurl + '/logout'
+				auth: 					$.workurl + '/auth-user',
+				companies: 				$.workurl + '/dash/companies',
+				date: 					$.workurl + '/dash/date',
+				revenue: 				$.workurl + '/dash/revenue/',
+				rooms: 					$.workurl + '/dash/stats/', 
+				payments: 				$.workurl + '/dash/payment/',
+				competition: 			$.workurl + '/dash/competition/',
+				logout:  				$.workurl + '/logout'
 			};
+
 		}
 	};
 	$.urls.setupUrls();
+  
 });
 
 
@@ -84,7 +108,12 @@ var appEvents = {
 	demo: function(){
 		// Demo button click
 		$("#demo-button").live("click", function(e){
-			$.baseurl = 'http://m.demo.revparmax.com';
+			if ( ! $.isMobile() ){
+ 				window.location.href = "http://m.demo.revparmax.com";
+				return false;
+			}
+
+ 			$.saveValue("workurl", "http://m.demo.revparmax.com");
 			$.urls.setupUrls();
 			$("#login-form [name=authemail]").val('jsmith@abchotel.com');
 			$("#login-form [name=authpassword]").val('abcd1234');
@@ -94,7 +123,9 @@ var appEvents = {
 
 	
 	authUser: function(){
-		
+		window.localStorage.setItem("workurl", $.urls.baseurl);
+		$.urls.setupUrls();
+
 		// Bind login action to submit button
 		$('#loginButton').live('click',function(e){
 		
@@ -124,7 +155,16 @@ var appEvents = {
 		
 	},
 	
+	closeButton: function(){
+		$('.closeButton').live('click', function(e){
+				window.localStorage.setItem("workurl", $.urls.baseurl);
+				$.urls.setupUrls();
+				return true;
+		});
+	},
+
 	selectCompany: function(){
+
 		
 		$('#list a').live('click',function(e){
 		
@@ -132,7 +172,7 @@ var appEvents = {
 			var company_id = $(this).data('companyid');
 			
 			// Store cookie
-			$.cookie('company_id', company_id, {expires: 7} );
+			$.saveValue('company_id', company_id );
 		
 			// Proceed with redirect
 			return true;
@@ -151,7 +191,7 @@ var appEvents = {
 			var date = $('#mydate').val();
 			
 			// Store cookie
-			$.cookie('date', date, {expires: 7} );
+			$.saveValue('date', date);
 		
 			// Redirect to revenue.html
 			window.location.href = 'revenue.html';
@@ -173,7 +213,7 @@ var appEvents = {
 				url: $.url.revenue + period,
 				type: 'POST',
 				dataType: 'json',
-				data: {date: $.cookie('date'), company_id: $.cookie('company_id') },
+				data: {date: $.readValue('date'), company_id: $.readValue('company_id') },
 				timeout: 2000,
 				success: function(data){
 
@@ -212,7 +252,7 @@ var appEvents = {
 				url: $.url.rooms + period,
 				type: 'POST',
 				dataType: 'json',
-				data: {date: $.cookie('date'), company_id: $.cookie('company_id') },
+				data: {date: $.readValue('date'), company_id: $.readValue('company_id') },
 				timeout: 2000,
 				success: function(data){
 
@@ -251,7 +291,7 @@ var appEvents = {
 				url: $.url.payments + period,
 				type: 'POST',
 				dataType: 'json',
-				data: {date: $.cookie('date'), company_id: $.cookie('company_id') },
+				data: {date: $.readValue('date'), company_id: $.readValue('company_id') },
 				timeout: 2000,
 				success: function(data){
 
@@ -290,7 +330,7 @@ var appEvents = {
 				url: $.url.competition + period,
 				type: 'POST',
 				dataType: 'json',
-				data: {date: $.cookie('date'), company_id: $.cookie('company_id') },
+				data: {date: $.readValue('date'), company_id: $.readValue('company_id') },
 				timeout: 2000,
 				success: function(data){
 
@@ -332,8 +372,11 @@ var appEvents = {
 
 					if(data.error != undefined)
 						alert('Failed to Log User In. Please Try Again');
-					else
+					else {
+						window.localStorage.setItem("workurl", $.urls.baseurl);
+						$.urls.setupUrls();
 						window.location.href = "index.html";
+					}
 				}
 
 			});
@@ -418,7 +461,7 @@ var appLoad = {
 					// Get company name	
 					$.each( companies, function(key,item){
 					
-						if( $.cookie('company_id') == item.company_id ){
+						if( $.readValue('company_id') == item.company_id ){
 							
 							$('h1 span').html(item.company_name);
 							
@@ -427,8 +470,8 @@ var appLoad = {
 					});
 					
 					// Get date if it is set
-					if ( $.cookie('date') != undefined)
-						$('#mydate').val( $.cookie('date') );
+					if ( $.readValue('date') != undefined)
+						$('#mydate').val( $.readValue('date') );
 					
 				}
 				
@@ -448,7 +491,7 @@ var appLoad = {
 			url: $.url.revenue + period,
 			type: 'POST',
 			dataType: 'json',
-			data: {date: $.cookie('date'), company_id: $.cookie('company_id') },
+			data: {date: $.readValue('date'), company_id: $.readValue('company_id') },
 			timeout: 2000,
 			success: function(data){
 
@@ -482,7 +525,7 @@ var appLoad = {
 			url: $.url.rooms + period,
 			type: 'POST',
 			dataType: 'json',
-			data: {date: $.cookie('date'), company_id: $.cookie('company_id') },
+			data: {date: $.readValue('date'), company_id: $.readValue('company_id') },
 			timeout: 2000,
 			success: function(data){
 
@@ -517,7 +560,7 @@ var appLoad = {
 			url: $.url.payments + period,
 			type: 'POST',
 			dataType: 'json',
-			data: {date: $.cookie('date'), company_id: $.cookie('company_id') },
+			data: {date: $.readValue('date'), company_id: $.readValue('company_id') },
 			timeout: 2000,
 			success: function(data){
 
@@ -552,7 +595,7 @@ var appLoad = {
 			url: $.url.competition + period,
 			type: 'POST',
 			dataType: 'json',
-			data: {date: $.cookie('date'), company_id: $.cookie('company_id') },
+			data: {date: $.readValue('date'), company_id: $.readValue('company_id') },
 			timeout: 2000,
 			success: function(data){
 
@@ -593,7 +636,7 @@ var appContent = {
 		// Get company name	
 		$.each( companies, function(key,item){
 
-			if( $.cookie('company_id') == item.company_id ){
+			if( $.readValue('company_id') == item.company_id ){
 
 				$('h1 span').html(item.company_name);
 
@@ -608,7 +651,7 @@ var appContent = {
 		// Load in Title
 		$('#meetings').find('#lime-green').html( 
 			
-			period.toUpperCase() + ' '+ type +' for ' + $.cookie('date')
+			period.toUpperCase() + ' '+ type +' for ' + $.readValue('date')
 			
 		);
 		
@@ -792,6 +835,7 @@ var appContent = {
 */
 
 var app = {
+
 	
 	login: function(){
 		
@@ -805,6 +849,7 @@ var app = {
 	companies: function(){
 		
 		appLoad.companies();
+		appEvents.closeButton();
 		appEvents.selectCompany();
 		
 	},
