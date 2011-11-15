@@ -115,10 +115,18 @@ var appEvents = {
 
  			$.saveValue("workurl", "http://m.demo.revparmax.com");
 			$.urls.setupUrls();
-			$("#login-form [name=authemail]").val('jsmith@abchotel.com');
-			$("#login-form [name=authpassword]").val('abcd1234');
-			$("#loginButton").click();
+			appEvents.loginDemoAcc();
 		});
+
+		if ( window.location.href.search(/\?demo=1/) != -1 ){
+			appEvents.loginDemoAcc();
+		}
+	},
+
+	loginDemoAcc: function(){
+		$("#login-form [name=authemail]").val('jsmith@abchotel.com');
+		$("#login-form [name=authpassword]").val('abcd1234');
+		$("#loginButton").click();
 	},
 
 	
