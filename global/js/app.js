@@ -109,7 +109,7 @@ var appEvents = {
 		// Demo button click
 		$("#demo-button").live("click", function(e){
 			if ( ! $.isMobile() ){
- 				window.location.href = "http://m.demo.revparmax.com";
+ 				window.location.href = "http://m.demo.revparmax.com/assets/index.html?demo=1";
 				return false;
 			}
 
